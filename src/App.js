@@ -1,56 +1,24 @@
 import React from "react";
 import "./App.css";
-import { Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Todo from "./Todo/Todo";
-import FormTodo from "./Todo/FormTodo";
+import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import TodoFunction from "./Todo/TodoFunction";
+import Login from "./Login/Login";
+import SignUp from "./Signup/Signup";
 
 function App() {
-  const [todos, setTodos] = React.useState([
-    {
-      text: "This is a sample todo list",
-      isDone: false
-    }
-  ]);
 
-  const addTodo = text => {
-    const newTodos = [...todos, { text }];
-    setTodos(newTodos);
-  };
-
-  const markTodo = index => {
-    const newTodos = [...todos];
-    newTodos[index].isDone = true;
-    setTodos(newTodos);
-  };
-
-  const removeTodo = index => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
 
   return (
     <div className="app">
-      <div className="container">
-        <h1 className="text-center mb-4 text-bold">Todo List</h1>
-        <FormTodo addTodo={addTodo} />
-        <div>
-          {todos.map((todo, index) => (
-            <Card style={{ backgroundColor: "rgb(255, 251, 202)", border: "none" }}>
-              <Card.Body>
-                <Todo
-                  key={index}
-                  index={index}
-                  todo={todo}
-                  markTodo={markTodo}
-                  removeTodo={removeTodo}
-                />
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<PrivateRoute>
+          <TodoFunction></TodoFunction>
+        </PrivateRoute>}></Route>
+        <Route path='/signup' element={<SignUp></SignUp>}></Route>
+        <Route path="/login" element={<Login></Login>}></Route>
+      </Routes>
     </div>
   );
 }
